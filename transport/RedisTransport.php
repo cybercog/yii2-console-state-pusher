@@ -3,28 +3,14 @@
  * Created by PhpStorm.
  * User: Insolita
  * Date: 17.08.14
- * Time: 5:23
+ * Time: 8:06
  */
 
 namespace insolita\statepusher\transport;
 
 
-use insolita\helpers\Helper;
-use yii\base\Object;
-/**
- * @implements TransportInterface
- */
-
-class FileTransport extends Object implements TransportInterface
-{
-    public $dirpath;
-
+class RedisTransport implements TransportInterface {
     private $_pushid;
-
-    public function init(){
-        Helper::logs('FileTransport init');
-    }
-
     /**
      * Устанавливает идентификатор операции
      *
@@ -32,7 +18,7 @@ class FileTransport extends Object implements TransportInterface
      */
     public function setPushid($id)
     {
-       $this->_pushid=$id;
+        $this->_pushid=$id;
     }
 
     /**
@@ -52,7 +38,7 @@ class FileTransport extends Object implements TransportInterface
      */
     public function getConnection()
     {
-        return null;
+        // TODO: Implement getConnection() method.
     }
 
     /**
@@ -96,4 +82,5 @@ class FileTransport extends Object implements TransportInterface
     {
         // TODO: Implement getPercent() method.
     }
-}
+
+} 
