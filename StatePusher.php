@@ -26,7 +26,7 @@ class StatePusher extends Component{
 
     private $_pushid;
     private $_transports=[self::PUSHER_TRANSPORT_FILE, self::PUSHER_TRANSPORT_DB, self::PUSHER_TRANSPORT_REDIS, self::PUSHER_TRANSPORT_AMQP];
-    private $_config;
+    private $_pusher;
 
     public function init($transport, $transportConfig=[]){
         if(!in_array($transport, $this->_transports)){
@@ -35,11 +35,14 @@ class StatePusher extends Component{
         else{
             $class=ucfirst($transport).'Transport';
             $transportConfig['class']=$class::className();
-            $c='123';
         }
-        $this->_config=\Yii::createObject($transportConfig);
+        $this->_pusher=\Yii::createObject($transportConfig);
+        return $this->_pusher;
     }
 
+    public function getPusher(){
+        return $this->_pusher;
+    }
     public function setPushid($name){
         $this->_pushid=$name;
     }
