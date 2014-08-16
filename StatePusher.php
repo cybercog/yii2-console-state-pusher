@@ -7,7 +7,7 @@
  */
 
 namespace insolita\statepusher;
-
+use insolita\statepusher\transport\FileTransport;
 
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -21,43 +21,80 @@ class StatePusher extends Component{
 
     const EVENT_AFTER_CLOSE='afterClose';
     const EVENT_AFTER_SEND='afterSend';
+    /**
+     * @var
+     */
     public $transport;
-    public $transport_config;
+    /**
+     * @var
+     */
+    public $transportConfig;
 
+    /**
+     * @var
+     */
     private $_pushid;
-    private $_transports=[self::PUSHER_TRANSPORT_FILE, self::PUSHER_TRANSPORT_DB, self::PUSHER_TRANSPORT_REDIS, self::PUSHER_TRANSPORT_AMQP];
+    /**
+     * @var array
+     */
+    private $_transports=[self::PUSHER_TRANSPORT_FILE, self::PUSHER_TRANSPORT_CACHE, self::PUSHER_TRANSPORT_DB, self::PUSHER_TRANSPORT_REDIS, self::PUSHER_TRANSPORT_AMQP];
+    /**
+     * @var insolita\statepusher\transport\TransportInterface $_pusher
+     */
     private $_pusher;
 
-    public function init($transport, $transportConfig=[]){
-        if(!in_array($transport, $this->_transports)){
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init(){
+        if(!in_array($this->transport, $this->_transports)){
             throw new InvalidConfigException('Транспорт должен быть задан одним из значений - '.implode(',',$this->_transports));
         }
         else{
-            $class=ucfirst($transport).'Transport';
-            $transportConfig['class']=$class::className();
+            $class=ucfirst($this->transport).'Transport';
+            $this->transportConfig['class']=__NAMESPACE__.'\transport\\'.$class;
         }
-        $this->_pusher=\Yii::createObject($transportConfig);
-        return $this->_pusher;
+        $this->_pusher=\Yii::createObject($this->transportConfig);
     }
 
+    /**
+     * @return mixed
+     */
     public function getPusher(){
         return $this->_pusher;
     }
+
+    /**
+     * @param $name
+     */
     public function setPushid($name){
-        $this->_pushid=$name;
+        $this->_pusher->setPushid($name);
     }
 
+    /**
+     * @return mixed
+     */
     public function getSession(){
-        return $this->_pushid;
+        return $this->_pusher->getPushid;
     }
 
+    /**
+     *
+     */
     public function close(){
 
     }
 
+    /**
+     *
+     */
     public function afterClose(){
 
     }
+
+    /**
+     *
+     */
     public function afterSend(){
 
     }

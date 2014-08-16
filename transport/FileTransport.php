@@ -11,12 +11,13 @@ namespace insolita\statepusher\transport;
 
 use insolita\helpers\Helper;
 use yii\base\Object;
+/**
+ * @implements TransportInterface
+ */
 
 class FileTransport extends Object implements TransportInterface
 {
     public $dirpath;
-
-    public $fileid;
 
     private $_pushid;
 
