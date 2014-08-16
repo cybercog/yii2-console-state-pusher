@@ -35,6 +35,7 @@ class StatePusher extends Component{
         else{
             $class=ucfirst($transport).'Transport';
             $transportConfig['class']=$class::className();
+            $c='123';
         }
         $this->_config=\Yii::createObject($transportConfig);
     }
