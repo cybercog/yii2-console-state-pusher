@@ -32,6 +32,10 @@ class StatePusher extends Component{
         if(!in_array($transport, $this->_transports)){
             throw new InvalidConfigException('Транспорт должен быть задан одним из значений - '.implode(',',$this->_transports));
         }
+        else{
+            $class=ucfirst($transport).'Transport';
+            $transportConfig['class']=$class::className();
+        }
         $this->_config=\Yii::createObject($transportConfig);
     }
 
