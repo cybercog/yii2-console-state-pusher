@@ -14,5 +14,8 @@
 		"psr-4": {
 			"insolita\\statepusher\\": ""
 		}
+	},
+	"require": {
+		"insolita/yii2-console-state-pusher": "dev-master"
 	}
 }
