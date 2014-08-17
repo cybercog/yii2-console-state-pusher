@@ -16,6 +16,11 @@ namespace insolita\statepusher\transport;
  */
 interface TransportInterface {
     /**
+     * Инициализация
+     * @return void
+     */
+    public function init();
+    /**
      * Устанавливает идентификатор операции
      * @return void
      */

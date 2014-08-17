@@ -9,8 +9,12 @@
 namespace insolita\statepusher\transport;
 
 
+use yii\base\InvalidCallException;
+
 class RedisTransport implements TransportInterface {
     private $_pushid;
+    /**@var yii\redis\Connection $_redis*/
+    private $_connection;
     /**
      * Устанавливает идентификатор операции
      *
@@ -32,13 +36,27 @@ class RedisTransport implements TransportInterface {
     }
 
     /**
+     * Инициализация
+     *
+     * @return void
+     */
+    public function init()
+    {
+        try{
+            $this->_connection=\Yii::$app->redis->open();
+        }catch (\Exception $e){
+            throw new InvalidCallException('Компонент Redis в системе не заегистрирован!');
+        }
+    }
+
+    /**
      * Возвращает соединение с протоколом
      *
      * @return mixed
      */
     public function getConnection()
     {
-        // TODO: Implement getConnection() method.
+        return $this->_connection;
     }
 
     /**
