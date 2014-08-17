@@ -71,12 +71,11 @@ class StatePusher extends Component{
         $this->_pusher->setPushid($name);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSession(){
-        return $this->_pusher->getPushid;
+    public function getPushid($name){
+        return $this->_pusher->getPushid();
     }
+
+
 
     /**
      *
